@@ -88,7 +88,9 @@ Coo_Commit Average Batch size: 15.145912910618794
 ## Run Reordering Test
 
 ```shell
-// Optimization rate test: go run src/t_txn/toro/ro/benchmark/count.go
+// Optimization rate test: go run src/t_txn/toro/ro/benchmark/rate/main.go
+// k_rate vs Optimization test: go run src/t_txn/toro/ro/benchmark/k_rate/main.go
+// sort_rate vs Optimization test: go run src/t_txn/toro/ro/benchmark/sort_rate/main.go
 go run src/t_txn/toro/ro/benchmark/count.go
 skew :0.0001
 Calvin  Bohm    PWV     Toro

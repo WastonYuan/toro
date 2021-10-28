@@ -59,7 +59,7 @@ func YCSB(c int, s float64, w float64 ,l int, d int) {
 		reorder.Insert(*ops)
 	}
 	reorder.Init()
-	ro_opss = *(reorder.Sort())
+	ro_opss = *(reorder.Sort(3))
 
 	// Run at this
 

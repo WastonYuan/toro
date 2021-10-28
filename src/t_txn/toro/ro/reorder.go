@@ -110,16 +110,21 @@ func (r *Reorder) TstarMerge(m_ops *t_txn.OPS) {
 }
 
 
-func (r *Reorder) Sort() *([](*t_txn.OPS)) {
+func (r *Reorder) Sort(k int) *([](*t_txn.OPS)) {
 	// t_log.Log(t_log.DEBUG, "Sorting: ")
 	for i := 1; i < len(*(r.sorted_list)); i++ { // find the next ops
 		// t_log.Log(t_log.DEBUG, ".")
 		min_ai := -1 // default is -1
 		// var dmax_key string
 		var selected_ops *t_txn.OPS
+		t := k
 		for ops, is_selected := range (*r.ops_m) {
+			if t == 0 {
+				break
+			}
 			if is_selected == false {
 				var ai int
+				t --
 				ai, _ = r.AIAfterTstar(ops)
 				// add the test
 				if min_ai == -1 || ai < min_ai { // not selected or less

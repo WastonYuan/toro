@@ -44,7 +44,7 @@ func YCSB(c int, s float64, w float64 ,l int, d int, is_ro bool) t_txn.Result {
 			reorder.Insert(*ops)
 		}
 		reorder.Init()
-		opss = *(reorder.Sort())
+		opss = *(reorder.Sort(10000))
 
 	} else {
 		for i := 0; i < t_count; i++ {
