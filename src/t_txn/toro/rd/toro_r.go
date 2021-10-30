@@ -88,6 +88,7 @@ func (r *Record) Read(txn_id int) (*Version, bool) {
 	defer r.rwlock.RUnlock()
 	var e *(list.Element) = nil
 	var pre *(list.Element)
+	var lv *Version = nil
 	for e = r.vl.Front(); e != nil; e = e.Next() {
 		v := e.Value.(*Version)
 		// ignore the ABORTED stats version so the chosse version including localVisible (once meet must read)
@@ -97,14 +98,20 @@ func (r *Record) Read(txn_id int) (*Version, bool) {
 			continue
 		}
 		if v.IsLocalVisible(txn_id) {
-			v.Read(txn_id)
-			return v, false
+			// v.Read(txn_id)
+			lv = v
+			continue
+			// return v, false
 		}
 		if v.LessTXN(txn_id) == false { // if true the verion is other pending visible
 			// read before the first can not visible 
 			break
 		}
 		pre = e
+	}
+	if lv != nil {
+		lv.Read(txn_id)
+		return lv, false
 	}
 	if pre == nil { // no visible version need fetch
 		// nv := r.Install(-1, COMMITED)
